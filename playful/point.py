@@ -27,3 +27,12 @@ class Point(NamedTuple):
             Point(x=self.x - 1, y=self.y - 1),
             Point(x=self.x + 1, y=self.y - 1),
         }
+
+    def sides(self) -> Set["Point"]:
+        """Return a set of the sides surrounding this Point."""
+        return {
+            Point(x=self.x + 1, y=self.y),
+            Point(x=self.x - 1, y=self.y),
+            Point(x=self.x, y=self.y + 1),
+            Point(x=self.x, y=self.y - 1),
+        }
