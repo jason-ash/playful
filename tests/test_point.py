@@ -55,3 +55,31 @@ class TestPoint(unittest.TestCase):
         self.assertTrue(Point(4, 5).is_side(Point(5, 5)))
         self.assertFalse(Point(4, 4).is_side(Point(5, 5)))
         self.assertFalse(Point(5, 5).is_side(Point(4, 4)))
+
+    def test_reflect_x(self):
+        """Test reflecting a point over a vertical line"""
+        point = Point(4, 4)
+        x_value = 7
+        reflection = Point(10, 4)
+        self.assertEqual(point.reflect(x=x_value), reflection)
+
+    def test_reflect_y(self):
+        """Test reflecting a point over a horizontal line"""
+        point = Point(4, 4)
+        y_value = 1
+        reflection = Point(4, -2)
+        self.assertEqual(point.reflect(y=y_value), reflection)
+
+    def test_reflect_xy(self):
+        """Test reflecting a point over a horizontal and vertical lines"""
+        point = Point(4, 4)
+        x_value, y_value = 7, 1
+        reflection = Point(10, -2)
+        self.assertEqual(point.reflect(x=x_value, y=y_value), reflection)
+
+    def test_reflect_identity(self):
+        """Test reflecting a point over itself"""
+        point = Point(4, 4)
+        x_value, y_value = 4, 4
+        reflection = Point(4, 4)
+        self.assertEqual(point.reflect(x=x_value, y=y_value), reflection)
