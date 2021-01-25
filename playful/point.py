@@ -19,6 +19,10 @@ class Point(NamedTuple):
     x: int
     y: int
 
+    def borders(self) -> Set["Point"]:
+        """Return a set of Points surrounding this Point in all directions."""
+        return self.corners().union(self.sides())
+
     def corners(self) -> Set["Point"]:
         """Return a set of the corners surrounding this Point."""
         return {

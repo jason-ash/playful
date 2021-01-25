@@ -7,6 +7,21 @@ from playful.point import Point
 class TestPoint(unittest.TestCase):
     """Test Point class"""
 
+    def test_borders(self):
+        """Test a Point's borders"""
+        point = Point(4, 4)
+        borders = {
+            Point(5, 5),
+            Point(3, 5),
+            Point(3, 3),
+            Point(5, 3),
+            Point(5, 4),
+            Point(4, 5),
+            Point(3, 4),
+            Point(4, 3),
+        }
+        self.assertEqual(point.borders(), borders)
+
     def test_corners(self):
         """Test a point's corners"""
         point = Point(4, 4)
