@@ -40,3 +40,15 @@ class Point(NamedTuple):
             Point(x=self.x, y=self.y + 1),
             Point(x=self.x, y=self.y - 1),
         }
+
+    def is_border(self, other: "Point") -> bool:
+        """Return a boolean indicating if this Point is bordered by another Point."""
+        return other in self.borders()
+
+    def is_corner(self, other: "Point") -> bool:
+        """Return a boolean indicating if this Point is the corner of another Point."""
+        return other in self.corners()
+
+    def is_side(self, other: "Point") -> bool:
+        """Return a boolean indicating if this Point is the side of another Point."""
+        return other in self.sides()
