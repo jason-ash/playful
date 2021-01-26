@@ -83,3 +83,28 @@ class TestPoint(unittest.TestCase):
         x_value, y_value = 4, 4
         reflection = Point(4, 4)
         self.assertEqual(point.reflect(x=x_value, y=y_value), reflection)
+
+    def test_rotate_identity(self):
+        """Test rotating a point around itself"""
+        point = Point(4, 4)
+        around = Point(4, 4)
+        rotation = Point(4, 4)
+        self.assertEqual(point.rotate(around=around, degrees=0), rotation)
+        self.assertEqual(point.rotate(around=around, degrees=90), rotation)
+        self.assertEqual(point.rotate(around=around, degrees=180), rotation)
+        self.assertEqual(point.rotate(around=around, degrees=270), rotation)
+
+    def test_rotate_raises(self):
+        """Test raising an error for rotation degrees not multiple of 90"""
+        point = Point(4, 4)
+        around = Point(5, 5)
+        self.assertRaises(ValueError, point.rotate, around, 120)
+
+    def test_rotate(self):
+        """Test some sample rotations"""
+        point = Point(8, 10)
+        around = Point(7, 7)
+        self.assertEqual(point.rotate(around=around, degrees=90), Point(10, 6))
+        self.assertEqual(point.rotate(around=around, degrees=180), Point(6, 4))
+        self.assertEqual(point.rotate(around=around, degrees=270), Point(4, 8))
+        self.assertEqual(point.rotate(around=around, degrees=-90), Point(4, 8))

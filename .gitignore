@@ -1,6 +1,7 @@
 __pycache__
 *.egg-info/
 .mypy_cache/
+.pytest_cache/
 .vscode/
 build/
 dist/

@@ -82,3 +82,45 @@ class Point(NamedTuple):
         dx = x - self.x
         dy = y - self.y
         return Point(x=x + dx, y=y + dy)
+
+    # pylint: disable=invalid-name
+    def rotate(self, around: "Point", degrees: int) -> "Point":
+        """
+        Return a new Point by rotating around another Point.
+
+        Parameters
+        ----------
+        around : Point, the point around which to rotate
+        degrees : int, the number of degrees to rotate. Must be a multiple of 90.
+
+        Examples
+        --------
+        >>> Point(8, 10).rotate(around=Point(7, 7), degrees=90)
+        Point(x=10, y=6)
+        >>> Point(8, 10).rotate(around=Point(7, 7), degrees=180)
+        Point(x=6, y=4)
+        >>> Point(8, 10).rotate(around=Point(7, 7), degrees=270)
+        Point(x=4, y=8)
+        >>> Point(8, 10).rotate(around=Point(7, 7), degrees=360)
+        Point(x=8, y=10)
+        >>> Point(8, 10).rotate(around=Point(7, 7), degrees=-90)
+        Point(x=4, y=8)
+        >>> Point(5, 5).rotate(around=Point(5, 5), degrees=180)
+        Point(x=5, y=5)
+        >>> Point(8, 10).rotate(around=Point(x=7, y=7), degrees=120)
+        Traceback (most recent call last):
+        ...
+        ValueError: degrees must be a multiple of 90
+        """
+        # constrain degrees to 0, 90, 180, 270; otherwise raise an error
+        degrees = degrees % 360
+        if degrees not in [0, 90, 180, 270]:
+            raise ValueError("degrees must be a multiple of 90")
+
+        if degrees == 0:
+            return Point(x=self.x, y=self.y)
+
+        # recursively rotate 90 degrees at a time until we reach our goal
+        dx, dy = self.x - around.x, self.y - around.y
+        x, y = around.x + dy, around.y - dx
+        return Point(x=x, y=y).rotate(around=around, degrees=degrees - 90)
