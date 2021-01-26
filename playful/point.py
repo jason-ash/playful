@@ -5,7 +5,7 @@ At the most basic level, a Point is an (x, y) pair of coordinates that defines a
 location. Usually this corresponds to a location on a game board, but the concept is
 abstract enough that it could generalize beyond a literal location if necessary.
 """
-from typing import NamedTuple, Set
+from typing import NamedTuple, Optional, Set
 
 
 class Point(NamedTuple):
@@ -52,3 +52,33 @@ class Point(NamedTuple):
     def is_side(self, other: "Point") -> bool:
         """Return a boolean indicating if this Point is the side of another Point."""
         return other in self.sides()
+
+    # pylint: disable=invalid-name
+    def reflect(self, x: Optional[int] = None, y: Optional[int] = None) -> "Point":
+        """
+        Return a new Point by reflecting over x and/or y lines.
+
+        If x or y is None, then the point won't be reflected over those axes. Therefore,
+        the default arguments of this function will return the original Point.
+
+        Parameters
+        ----------
+        x : Optional[int], default None, the vertical line across which to reflect
+        y : Optional[int], default None, the horizontal line across which to refect
+
+        Examples
+        --------
+        >>> Point(4, 4).reflect(x=6)
+        Point(x=8, y=4)
+        >>> Point(4, 4).reflect(y=1)
+        Point(x=4, y=-2)
+        >>> Point(4, 4).reflect(x=6, y=1)
+        Point(x=8, y=-2)
+        >>> Point(4, 4).reflect()
+        Point(x=4, y=4)
+        """
+        x = x or self.x
+        y = y or self.y
+        dx = x - self.x
+        dy = y - self.y
+        return Point(x=x + dx, y=y + dy)
