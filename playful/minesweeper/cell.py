@@ -1,5 +1,6 @@
 """Minesweeper Cell class"""
-from typing import NamedTuple
+from collections import Counter
+from typing import Dict, Iterable, NamedTuple, Set
 from playful.point import Point
 
 
@@ -19,9 +20,21 @@ class Cell(NamedTuple):
     value : int, a number between -1 and 8, where -1 is used to indicate a bomb, and
         the numbers 0 through 8 are used to identify how many bombs a Cell touches
     state : str, an indicator for the Cell's state, which can be "flagged", "hidden",
-        or "revealed
+        or "revealed"
     """
 
     location: Point
     value: int
     state: str
+
+    def is_bomb(self) -> bool:
+        """Return a boolean indicating whether this cell contains a bomb or not."""
+        return self.value == -1
+
+    def neighbors(self, cells: Iterable["Cell"]) -> Set["Cell"]:
+        """Return a set of the Cells among a group that border this Cell."""
+        return set(cell for cell in cells if cell.location in self.location.borders())
+
+    def neighbor_states(self, cells: Iterable["Cell"]) -> Dict[str, int]:
+        """Return a dictionary of the states and counts of this Cell's neighbors."""
+        return Counter(cell.state for cell in self.neighbors(cells))
