@@ -48,3 +48,25 @@ class TestPoint(unittest.TestCase):
             Cell(Point(1, 1), value=2, state="revealed"),
         }
         self.assertEqual(Board(self.cells).safe_cells(), expected)
+
+    def test_flagged_cells(self):
+        """Test identifying the set of Cells that are flagged"""
+        expected = {
+            Cell(Point(0, 1), value=-1, state="flagged"),
+        }
+        self.assertEqual(Board(self.cells).flagged_cells(), expected)
+
+    def test_hidden_cells(self):
+        """Test identifying the set of Cells that are hidden"""
+        expected = {
+            Cell(Point(0, 0), value=-1, state="hidden"),
+        }
+        self.assertEqual(Board(self.cells).hidden_cells(), expected)
+
+    def test_revealed_cells(self):
+        """Test identifying the set of Cells that are revealed"""
+        expected = {
+            Cell(Point(1, 0), value=2, state="revealed"),
+            Cell(Point(1, 1), value=2, state="revealed"),
+        }
+        self.assertEqual(Board(self.cells).revealed_cells(), expected)
