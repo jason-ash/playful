@@ -16,6 +16,11 @@ class TestPoint(unittest.TestCase):
         Cell(Point(1, 1), value=2, state="revealed"),
     }
 
+    def test_bomb_repr(self):
+        """Test the string representation of the Board"""
+        expected = "Board(height=2, width=2, bombs=2, flagged=1, hidden=1, revealed=2)"
+        self.assertEqual(Board(self.cells).__repr__(), expected)
+
     def test_bomb_count(self):
         """Test correctly identifying the number of bombs on a Board"""
         self.assertEqual(Board(self.cells).bombs, 2)

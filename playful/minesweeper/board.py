@@ -38,7 +38,7 @@ class Board(NamedTuple):
 
     def states(self) -> Dict[str, int]:
         """Return a dictionary of the states of all Cells in this Board."""
-        return Counter(cell.state for cell in self.cells)
+        return Counter(sorted(cell.state for cell in self.cells))
 
     def bomb_cells(self) -> Set["Cell"]:
         """Return the set of Cells in this Board that contain bombs."""
