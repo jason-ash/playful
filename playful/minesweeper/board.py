@@ -1,11 +1,11 @@
 """Minesweeper Board class"""
 from collections import Counter
-from typing import Dict, Set
+from typing import Dict, NamedTuple, Set
 
 from playful.minesweeper.cell import Cell
 
 
-class Board:
+class Board(NamedTuple):
     """A minesweeper Board contains a set of Cells and methods to play the game."""
 
     cells: Set[Cell]
