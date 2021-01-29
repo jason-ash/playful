@@ -47,3 +47,15 @@ class Board(NamedTuple):
     def safe_cells(self) -> Set["Cell"]:
         """Return the set of Cells in this Board that don't contain bombs."""
         return set(cell for cell in self.cells if not cell.is_bomb())
+
+    def flagged_cells(self) -> Set["Cell"]:
+        """Return the set of Cells in this Board that have been flagged."""
+        return set(cell for cell in self.cells if cell.state == "flagged")
+
+    def hidden_cells(self) -> Set["Cell"]:
+        """Return the set of Cells in this Board that have been hidden."""
+        return set(cell for cell in self.cells if cell.state == "hidden")
+
+    def revealed_cells(self) -> Set["Cell"]:
+        """Return the set of Cells in this Board that have been revealed."""
+        return set(cell for cell in self.cells if cell.state == "revealed")
