@@ -42,6 +42,8 @@ class Board(NamedTuple):
 
     def bomb_cells(self) -> Set["Cell"]:
         """Return the set of Cells in this Board that contain bombs."""
+        return set(cell for cell in self.cells if cell.is_bomb())
 
     def safe_cells(self) -> Set["Cell"]:
         """Return the set of Cells in this Board that don't contain bombs."""
+        return set(cell for cell in self.cells if not cell.is_bomb())
