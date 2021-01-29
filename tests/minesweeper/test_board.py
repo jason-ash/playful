@@ -32,3 +32,19 @@ class TestPoint(unittest.TestCase):
         """Test correctly identifying the states of the Board's Cells"""
         expected = dict(hidden=1, revealed=2, flagged=1)
         self.assertEqual(Board(self.cells).states(), expected)
+
+    def test_bomb_cells(self):
+        """Test identifying the set of Cells that contain bombs"""
+        expected = {
+            Cell(Point(0, 0), value=-1, state="hidden"),
+            Cell(Point(0, 1), value=-1, state="flagged"),
+        }
+        self.assertEqual(Board(self.cells).bomb_cells(), expected)
+
+    def test_safe_cells(self):
+        """Test identifying the set of Cells that contain bombs"""
+        expected = {
+            Cell(Point(1, 0), value=2, state="revealed"),
+            Cell(Point(1, 1), value=2, state="revealed"),
+        }
+        self.assertEqual(Board(self.cells).safe_cells(), expected)
