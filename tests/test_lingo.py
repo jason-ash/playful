@@ -1,0 +1,16 @@
+"""Test playful/lingo.py"""
+import unittest
+
+from playful.lingo import correct_letters
+
+
+class TestLingo(unittest.TestCase):
+    """Test Lingo functions"""
+
+    def test_correct_letters(self):
+        """Test identifying correct letters, given a secret word and a guess"""
+        self.assertEqual(correct_letters("tacos"), ("", "", "", "", ""))
+        self.assertEqual(correct_letters("tacos", "tails"), ("t", "a", "", "", "s"))
+        self.assertEqual(correct_letters("misos", "mosso"), ("m", "", "s", "", ""))
+        self.assertEqual(correct_letters("misos", "sassy"), ("", "", "s", "", ""))
+        self.assertEqual(correct_letters("sorts", "funds"), ("", "", "", "", "s"))
