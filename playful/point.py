@@ -53,7 +53,6 @@ class Point(NamedTuple):
         """Return a boolean indicating if this Point is the side of another Point."""
         return other in self.sides()
 
-    # pylint: disable=invalid-name
     def reflect(self, x: Optional[int] = None, y: Optional[int] = None) -> "Point":
         """
         Return a new Point by reflecting over x and/or y lines.
@@ -83,7 +82,6 @@ class Point(NamedTuple):
         dy = y - self.y
         return Point(x=x + dx, y=y + dy)
 
-    # pylint: disable=invalid-name
     def rotate(self, around: "Point", degrees: int) -> "Point":
         """
         Return a new Point by rotating around another Point.
