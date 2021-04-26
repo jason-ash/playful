@@ -17,7 +17,3 @@ class Grid:
         """Return a new Grid instance with a given width and height."""
         points = {Point(x, y) for x in range(width) for y in range(height)}
         return cls(points)
-
-    def __eq__(self, other: "Grid") -> bool:
-        """Return a boolean indicating whether two grid objects are equal."""
-        return isinstance(other, Grid) and (self.points == other.points)

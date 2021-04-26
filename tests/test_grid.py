@@ -10,7 +10,6 @@ class TestGrid(unittest.TestCase):
 
     def test_create(self):
         """Test creating a small, 2x2 grid of points"""
+        grid = Grid.create(width=2, height=2)
         points = {Point(0, 0), Point(0, 1), Point(1, 0), Point(1, 1)}
-        expected = Grid(points)
-        actual = Grid.create(width=2, height=2)
-        self.assertEqual(actual, expected)
+        self.assertEqual(grid.points, points)
