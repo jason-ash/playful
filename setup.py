@@ -22,7 +22,7 @@ setup(
     packages=find_packages(),
     install_requires=[],
     extras_require={
-        "dev": ["black==20.8b1", "pre-commit==2.9.3", "pylint==2.6.0", "mypy==0.800"]
+        "dev": ["black==21.7b0", "pre-commit==2.13.0", "pylint==2.9.6", "mypy==0.910"]
     },
     include_package_data=True,
     package_data={"playful": ["../README.md", "../LICENSE.md"]},
