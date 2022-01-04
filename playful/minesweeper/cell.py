@@ -1,6 +1,6 @@
 """Minesweeper Cell class"""
 from collections import Counter
-from typing import Dict, Literal, Iterable, NamedTuple, Set
+from typing import Dict, Iterable, NamedTuple, Set
 
 from playful.core import Point
 
@@ -26,7 +26,7 @@ class Cell(NamedTuple):
 
     location: Point
     value: int
-    state: Literal["flagged", "hidden", "revealed"]
+    state: str
 
     def is_bomb(self) -> bool:
         """Return a boolean indicating whether this cell contains a bomb or not."""
