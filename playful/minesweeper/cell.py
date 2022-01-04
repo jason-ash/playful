@@ -1,6 +1,6 @@
 """Minesweeper Cell class"""
 from collections import Counter
-from typing import Dict, Iterable, NamedTuple, Set
+from typing import Dict, Literal, Iterable, NamedTuple, Set
 
 from playful.core import Point
 
@@ -26,7 +26,7 @@ class Cell(NamedTuple):
 
     location: Point
     value: int
-    state: str
+    state: Literal["flagged", "hidden", "revealed"]
 
     def is_bomb(self) -> bool:
         """Return a boolean indicating whether this cell contains a bomb or not."""
@@ -34,6 +34,8 @@ class Cell(NamedTuple):
 
     def neighbors(self, cells: Iterable["Cell"]) -> Set["Cell"]:
         """Return a set of the Cells among a group that border this Cell."""
+        # we have to pass an iterable of Cells to this function because a Cell has no
+        # concept of its neighbors - that only exists in the context of a Board object.
         return set(cell for cell in cells if cell.location in self.location.borders())
 
     def neighbor_states(self, cells: Iterable["Cell"]) -> Dict[str, int]:

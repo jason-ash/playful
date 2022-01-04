@@ -1,7 +1,10 @@
 """Minesweeper Board class"""
 from collections import Counter
-from typing import Dict, NamedTuple, Set
+from itertools import product
+import random
+from typing import Dict, NamedTuple, Optional, Set
 
+from playful.core import Point
 from playful.minesweeper.cell import Cell
 
 
@@ -20,6 +23,24 @@ class Board(NamedTuple):
         )
         attrs = ", ".join(f"{k}={repr(v)}" for k, v in attributes.items())
         return f"{self.__class__.__qualname__}({attrs})"
+
+    @classmethod
+    def create(
+        cls, height: int, width: int, n_bombs: int, random_state: Optional[int]
+    ) -> "Board":
+        """Create a Board with a given size and number of randomly-distributed bombs."""
+        random.seed(random_state)
+        points = [Point(x, y) for x, y in product(range(height), range(width))]
+        bombs = set(random.sample(points, n_bombs))
+        cells = {
+            Cell(
+                p,
+                value=-1 if p in bombs else len(p.borders().intersection(bombs)),
+                state="hidden",
+            )
+            for p in points
+        }
+        return cls(cells)
 
     @property
     def bombs(self) -> int:
