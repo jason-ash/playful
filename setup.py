@@ -2,13 +2,14 @@
 from setuptools import setup, find_packages
 
 
-with open("playful/version.py") as version:
+with open("playful/version.py", "r", encoding="utf-8") as version:
     __version__ = ""
     exec(version.read(), globals())  # pylint: disable=exec-used
 
 
-with open("README.md") as readme:
+with open("README.md", "r", encoding="utf-8") as readme:
     README = readme.read()
+
 
 setup(
     name="playful",
