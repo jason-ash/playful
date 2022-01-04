@@ -31,7 +31,7 @@ class Board(NamedTuple):
     ) -> "Board":
         """Create a Board with a given size and number of randomly-distributed bombs."""
         random.seed(random_state)
-        points = [Point(x, y) for x, y in product(range(height), range(width))]
+        points = [Point(x, y) for x, y in product(range(width), range(height))]
         bombs = set(random.sample(points, n_bombs))
         cells = {
             Cell(

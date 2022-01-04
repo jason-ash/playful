@@ -41,3 +41,13 @@ class Cell(NamedTuple):
     def neighbor_states(self, cells: Iterable["Cell"]) -> Dict[str, int]:
         """Return a dictionary of the states and counts of this Cell's neighbors."""
         return Counter(cell.state for cell in self.neighbors(cells))
+
+    def reveal(self) -> "Cell":
+        """Return a new Cell by revealing this one."""
+        return self.__class__(
+            location=self.location, value=self.value, state="revealed"
+        )
+
+    def flag(self) -> "Cell":
+        """Return a new Cell by flagging this one."""
+        return self.__class__(location=self.location, value=self.value, state="flagged")
