@@ -27,7 +27,7 @@ class Board(NamedTuple):
 
     @classmethod
     def create(
-        cls, height: int, width: int, n_bombs: int, random_state: Optional[int]
+        cls, width: int, height: int, n_bombs: int, random_state: Optional[int]
     ) -> "Board":
         """Create a Board with a given size and number of randomly-distributed bombs."""
         random.seed(random_state)
@@ -42,6 +42,15 @@ class Board(NamedTuple):
             for p in points
         }
         return cls(cells)
+
+    def visualize(self) -> str:
+        """Return a string visualization of the Board and its cells."""
+        border = f"#{'-' * (self.width * 2 - 1)}#"
+        contents = "\n"
+        for row in range(self.height):
+            cells = (c for c in self.cells if c.location.y == row)
+            contents += "|" + "|".join(c.visualize() for c in cells) + "|\n"
+        return border + contents + border
 
     @property
     def bombs(self) -> int:
