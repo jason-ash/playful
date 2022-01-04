@@ -1,7 +1,7 @@
 """Test point.py"""
 import unittest
 
-from playful.point import Point
+from playful.core import Point
 
 
 class TestPoint(unittest.TestCase):
