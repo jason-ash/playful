@@ -51,3 +51,15 @@ class Cell(NamedTuple):
     def flag(self) -> "Cell":
         """Return a new Cell by flagging this one."""
         return self.__class__(location=self.location, value=self.value, state="flagged")
+
+    def visualize(self) -> str:
+        """Return a string visualization of this cell based on its value and state."""
+        if self.state == "hidden":
+            return "?"
+        if self.state == "flagged":
+            return "!"
+        if self.value == -1:
+            return "B"
+        if self.value == 0:
+            return " "
+        return str(self.value)
