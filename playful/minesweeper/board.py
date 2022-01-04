@@ -2,7 +2,8 @@
 from collections import Counter
 from itertools import product
 import random
-from typing import Dict, NamedTuple, Optional, Set
+import typing
+from typing import NamedTuple, Optional, Set
 
 from playful.core import Point
 from playful.minesweeper.cell import Cell
@@ -57,7 +58,7 @@ class Board(NamedTuple):
         """Return the width (x) dimension of this Board."""
         return max(cell.location.x for cell in self.cells) + 1
 
-    def states(self) -> Dict[str, int]:
+    def states(self) -> typing.Counter[str]:
         """Return a dictionary of the states of all Cells in this Board."""
         return Counter(sorted(cell.state for cell in self.cells))
 
