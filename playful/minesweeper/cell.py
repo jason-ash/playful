@@ -1,7 +1,8 @@
 """Minesweeper Cell class"""
 from collections import Counter
 from typing import Dict, Iterable, NamedTuple, Set
-from playful.point import Point
+
+from playful.core import Point
 
 
 class Cell(NamedTuple):

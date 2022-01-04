@@ -1,7 +1,7 @@
 """Test minesweeper/cell.py"""
 import unittest
 
-from playful.point import Point
+from playful.core import Point
 from playful.minesweeper.cell import Cell
 
 

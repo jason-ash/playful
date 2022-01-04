@@ -1,9 +1,9 @@
 """Test minesweeper/board.py"""
 import unittest
 
-from playful.point import Point
-from playful.minesweeper.cell import Cell
+from playful.core import Point
 from playful.minesweeper.board import Board
+from playful.minesweeper.cell import Cell
 
 
 class TestPoint(unittest.TestCase):
