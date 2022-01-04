@@ -2,13 +2,13 @@
 from setuptools import setup, find_packages
 
 
-with open("playful/version.py") as f:
+with open("playful/version.py") as version:
     __version__ = ""
-    exec(f.read(), globals())  # pylint: disable=exec-used
+    exec(version.read(), globals())  # pylint: disable=exec-used
 
 
-with open("README.md") as f:
-    README = f.read()
+with open("README.md") as readme:
+    README = readme.read()
 
 setup(
     name="playful",
@@ -34,6 +34,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     test_suite="tests",
     zip_safe=False,
