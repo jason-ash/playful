@@ -56,17 +56,45 @@ class Board(NamedTuple):
         """Return the Cell on this Board at a given location."""
         return next((c for c in self.cells if c.location == location), None)
 
-    def _change_cell_state(self, location: Point, state: str) -> Set[Cell]:
+    def _change_cell_state(self, location: Point, state: str) -> "Board":
         """Return a new Board after updating the state of one of its cells."""
         # if a cell doesn't exist at that location, just return the current set of cells.
         cell = self._get_cell(location=location)
         if cell:
-            return self.cells.union({cell.change_state(state=state)}) - {cell}
-        return self.cells
+            cells = (self.cells - {cell}).union({cell.change_state(state=state)})
+        else:
+            cells = self.cells
+        return self.__class__(cells)
 
     def flag(self, location: Point) -> "Board":
         """Return a new Board after flagging the Cell at a given location."""
-        return self.__class__(self._change_cell_state(location, "flagged"))
+        # make sure we don't flag a revealed cell
+        if self._get_cell(location=location).state == "revealed":
+            return self
+        return self._change_cell_state(location=location, state="flagged")
+
+    def reveal(self, location: Point) -> "Board":
+        """
+        Return a new Board after revealing the Cell at a given location.
+
+        If the revealed Cell has a value of 0 (no neighboring bombs), then we want to
+        recursively reveal all neighboring Cells until the last Cells we have revealed
+        contain numbers. We reveal all Cells, even if they have been flagged, as this
+        is only likely to reveal Cells that were flagged incorrectly anyway.
+
+        If there is no Cell at the given location, return the original Board.
+        """
+        cell = self._get_cell(location=location)
+        if cell is None or cell.state == "revealed":
+            return self
+
+        out = self._change_cell_state(location=location, state="revealed")
+        if cell.value != 0:
+            return out
+
+        for neighbor in location.borders():
+            out = out.reveal(neighbor)
+        return out
 
     @property
     def bombs(self) -> int:
