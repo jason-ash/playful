@@ -27,7 +27,7 @@ class Board(NamedTuple):
 
     @classmethod
     def create(
-        cls, width: int, height: int, n_bombs: int, random_state: Optional[int]
+        cls, width: int, height: int, n_bombs: int, random_state: Optional[int] = None
     ) -> "Board":
         """Create a Board with a given size and number of randomly-distributed bombs."""
         random.seed(random_state)
