@@ -48,7 +48,7 @@ class Board(NamedTuple):
         border = f"#{'-' * (self.width * 2 - 1)}#"
         contents = "\n"
         for row in range(self.height):
-            cells = (c for c in self.cells if c.location.y == row)
+            cells = sorted(c for c in self.cells if c.location.y == row)
             contents += "|" + "|".join(c.visualize() for c in cells) + "|\n"
         return border + contents + border
 
