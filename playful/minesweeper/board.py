@@ -52,6 +52,22 @@ class Board(NamedTuple):
             contents += "|" + "|".join(c.visualize() for c in cells) + "|\n"
         return border + contents + border
 
+    def _get_cell(self, location: Point) -> Optional[Cell]:
+        """Return the Cell on this Board at a given location."""
+        return next((c for c in self.cells if c.location == location), None)
+
+    def _change_cell_state(self, location: Point, state: str) -> Set[Cell]:
+        """Return a new Board after updating the state of one of its cells."""
+        # if a cell doesn't exist at that location, just return the current set of cells.
+        cell = self._get_cell(location=location)
+        if cell:
+            return self.cells.union({cell.change_state(state=state)}) - {cell}
+        return self.cells
+
+    def flag(self, location: Point) -> "Board":
+        """Return a new Board after flagging the Cell at a given location."""
+        return self.__class__(self._change_cell_state(location, "flagged"))
+
     @property
     def bombs(self) -> int:
         """Return the number of bombs contained in this Board."""
