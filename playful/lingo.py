@@ -48,7 +48,9 @@ def has_excluded_letters(word: str, letters: Tuple[str, ...]) -> bool:
 
 def has_misplaced_letters(word: str, letters: Tuple[str, ...]) -> bool:
     """Return a boolean indicating if a candidate word matches the misplaced letters."""
-    return not any(w == letter for w, letter in zip(word, letters))
+    has_letters = all(letter in word for letter in letters)
+    has_positions = all(w != letter for w, letter in zip(word, letters))
+    return has_letters and has_positions
 
 
 def is_potential_solution(secret: str, guess: str, word: str) -> bool:

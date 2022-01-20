@@ -54,6 +54,7 @@ class TestLingo(unittest.TestCase):
             ("misos", "sassy", ("s", "", "", "", "")),
             ("robed", "worry", ("", "", "r", "", "")),
             ("crazy", "jazzy", ("", "a", "", "", "")),
+            ("broth", "trace", ("t", "", "", "", "")),
         ]
         for secret, guess, output in cases:
             with self.subTest(f"testing secret='{secret}' with guess='{guess}'"):
@@ -100,6 +101,7 @@ class TestLingo(unittest.TestCase):
             ("abbot", ("b", "b", "", "", ""), False),
             ("abbot", ("", "a", "", "", ""), True),
             ("abbot", ("a", "", "", "", ""), False),
+            ("broth", ("a", "", "t", "", ""), False),
         ]
         for word, letters, output in cases:
             with self.subTest(f"testing word='{word}' with letters='{letters}'"):
