@@ -100,6 +100,7 @@ class TestLingo(unittest.TestCase):
             ("abbot", ("b", "b", "", "", ""), False),
             ("abbot", ("", "a", "", "", ""), True),
             ("abbot", ("a", "", "", "", ""), False),
+            ("broth", ("a", "", "t", "", ""), False),
         ]
         for word, letters, output in cases:
             with self.subTest(f"testing word='{word}' with letters='{letters}'"):
