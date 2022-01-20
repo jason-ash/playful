@@ -8,7 +8,7 @@ A Python package that implements classic computer and board games.
   </a>
   <a href="" target="_blank">
     <img
-      src="https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9"
+      src="https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-blue?style=flat-square"
       alt="Supported Python versions"
     />
   </a>
