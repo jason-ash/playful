@@ -18,11 +18,13 @@ class TestLingo(unittest.TestCase):
     def test_correct_letters(self):
         """Test identifying correct letters, given a secret word and a guess"""
         cases = [
+            ("match", "match", ("m", "a", "t", "c", "h")),
             ("tacos", "tails", ("t", "a", "", "", "s")),
             ("misos", "mosso", ("m", "", "s", "", "")),
             ("misos", "sassy", ("", "", "s", "", "")),
             ("sorts", "funds", ("", "", "", "", "s")),
             ("tangy", "zzzzz", ("", "", "", "", "")),
+            ("crazy", "jazzy", ("", "", "", "z", "y")),
         ]
         for secret, guess, output in cases:
             with self.subTest(f"testing secret='{secret}' with guess='{guess}'"):
@@ -31,12 +33,13 @@ class TestLingo(unittest.TestCase):
     def test_excluded_letters(self):
         """Test identifying single or multiple letters that we know aren't included."""
         cases = [
-            ("match", "match", ("",)),
+            ("match", "match", ()),
             ("tangy", "zzzzz", ("z",)),
             ("misos", "sumps", ("p", "u")),
             ("misos", "mosso", ("oo",)),
             ("misos", "sassy", ("a", "sss", "y")),
             ("robed", "worry", ("rr", "w", "y")),
+            ("crazy", "jazzy", ("j", "zz")),
         ]
         for secret, guess, output in cases:
             with self.subTest(f"testing secret='{secret}' with guess='{guess}'"):
@@ -50,6 +53,7 @@ class TestLingo(unittest.TestCase):
             ("misos", "mosso", ("", "o", "", "s", "")),
             ("misos", "sassy", ("s", "", "", "", "")),
             ("robed", "worry", ("", "", "r", "", "")),
+            ("crazy", "jazzy", ("", "a", "", "", "")),
         ]
         for secret, guess, output in cases:
             with self.subTest(f"testing secret='{secret}' with guess='{guess}'"):
@@ -65,44 +69,49 @@ class TestLingo(unittest.TestCase):
             ("abbot", ("b", "", "", "", ""), False),
             ("abbot", ("a", "b", "b", "o", "t"), True),
         ]
-        for candidate, exclusions, output in cases:
-            with self.subTest():
-                self.assertEqual(has_correct_letters(candidate, exclusions), output)
+        for word, letters, output in cases:
+            with self.subTest(f"testing word='{word}' with letters='{letters}'"):
+                self.assertEqual(has_correct_letters(word, letters), output)
 
     def test_has_excluded_letters(self):
         """Test identifying candidate words that contain excluded letters"""
         cases = [
             ("river", ("r",), True),
             ("river", ("rr",), True),
-            ("river", ("rrr",), True),
+            ("river", ("rrr",), False),
             ("abbot", ("t",), True),
             ("abbot", ("b",), True),
             ("abbot", ("bb",), True),
             ("abbot", ("bbb",), False),
         ]
-        for candidate, exclusions, output in cases:
-            with self.subTest():
-                self.assertEqual(has_excluded_letters(candidate, exclusions), output)
+        for word, letters, output in cases:
+            with self.subTest(f"testing word='{word}' with letters='{letters}'"):
+                self.assertEqual(has_excluded_letters(word, letters), output)
 
     def test_has_misplaced_letters(self):
         """Test identifying candidate words that contain misplaced letters"""
         cases = [
-            ("river", ("r",), True),
-            ("river", ("rr",), True),
-            ("river", ("rrr",), True),
-            ("abbot", ("t",), True),
-            ("abbot", ("b",), True),
-            ("abbot", ("bb",), True),
-            ("abbot", ("bbb",), False),
+            ("river", ("", "", "", "r", ""), True),
+            ("river", ("", "", "", "", "r"), False),
+            ("river", ("r", "", "", "", ""), False),
+            ("river", ("", "r", "r", "", ""), True),
+            ("river", ("r", "", "", "", "r"), False),
+            ("abbot", ("b", "", "", "b", ""), True),
+            ("abbot", ("b", "b", "", "", ""), False),
+            ("abbot", ("", "a", "", "", ""), True),
+            ("abbot", ("a", "", "", "", ""), False),
         ]
-        for candidate, exclusions, output in cases:
-            with self.subTest():
-                self.assertEqual(has_misplaced_letters(candidate, exclusions), output)
+        for word, letters, output in cases:
+            with self.subTest(f"testing word='{word}' with letters='{letters}'"):
+                self.assertEqual(has_misplaced_letters(word, letters), output)
 
     def test_is_potential_solution(self):
         """Test identifying words that are still potential solutions"""
         cases = [
-            ("robed", "worry", "river", False),  # ruled out because of second 'r'
+            ("match", "match", "match", True),
+            ("match", "match", "other", False),
+            ("robed", "worry", "robed", True),
+            ("robed", "worry", "river", False),
         ]
         for secret, guess, word, output in cases:
             with self.subTest():

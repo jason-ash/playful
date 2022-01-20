@@ -12,11 +12,28 @@ def correct_letters(secret: str, guess: str) -> Tuple[str, ...]:
 
 def excluded_letters(secret: str, guess: str) -> Tuple[str, ...]:
     """Return letters that we know aren't included in the secret word."""
-    return ("",)
+    excluded = []
+    for letter in set(guess):
+        occurrences = secret.count(letter)
+        if occurrences == 0:
+            excluded.append(letter)
+        else:
+            if guess.count(letter) > occurrences:
+                excluded.append(letter * (occurrences + 1))
+    return tuple(sorted(excluded))
 
 
 def misplaced_letters(secret: str, guess: str) -> Tuple[str, ...]:
     """Return a tuple identifying letters that are in the secret word, but misplaced."""
+    available = [s for s, g in zip(secret, guess) if s != g]
+    misplaced = []
+    for secret_letter, guess_letter in zip(secret, guess):
+        if secret_letter != guess_letter and guess_letter in available:
+            misplaced.append(guess_letter)
+            available.remove(guess_letter)
+        else:
+            misplaced.append("")
+    return tuple(misplaced)
 
 
 def has_correct_letters(word: str, letters: Tuple[str, ...]) -> bool:
@@ -26,10 +43,12 @@ def has_correct_letters(word: str, letters: Tuple[str, ...]) -> bool:
 
 def has_excluded_letters(word: str, letters: Tuple[str, ...]) -> bool:
     """Return a boolean indicating if a candidate word contains any excluded letters."""
+    return any(word.count(letter[0]) >= len(letter) for letter in letters)
 
 
 def has_misplaced_letters(word: str, letters: Tuple[str, ...]) -> bool:
     """Return a boolean indicating if a candidate word matches the misplaced letters."""
+    return not any(w == letter for w, letter in zip(word, letters))
 
 
 def is_potential_solution(secret: str, guess: str, word: str) -> bool:
