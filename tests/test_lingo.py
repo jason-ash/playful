@@ -2,6 +2,7 @@
 import unittest
 
 from playful.lingo import (
+    best_splitting_word,
     correct_letters,
     excluded_letters,
     misplaced_letters,
@@ -134,3 +135,16 @@ class TestLingo(unittest.TestCase):
         self.assertListEqual(
             partitions(guess="trace", words=words), [[word] for word in words]
         )
+
+    def test_best_splitting_word(self):
+        """Test identifying the word that splits a collection of words the best"""
+        # fmt: off
+        words = [
+            # these words should all be uniquely identified by the guess "trace".
+            "artsy", "carve", "cater", "chart", "court", "craft", "crate", "croak",
+            "erect", "farce", "force", "great", "heart", "mecca", "price", "reach",
+            "react", "recut", "retch", "roach", "scare", "stack", "stare", "teach",
+            "teary", "tease", "tiara", "torch", "trace", "trade", "twice", "wreck",
+        ]
+        # fmt: on
+        self.assertEqual(best_splitting_word(candidates=words, words=words), "trace")
