@@ -63,7 +63,7 @@ class Point(NamedTuple):
         Parameters
         ----------
         x : Optional[int], default None, the vertical line across which to reflect
-        y : Optional[int], default None, the horizontal line across which to refect
+        y : Optional[int], default None, the horizontal line across which to reflect
 
         Examples
         --------
