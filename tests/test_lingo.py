@@ -63,17 +63,7 @@ class TestLingo(unittest.TestCase):
             ("river", ("r", "", "r", "", "r"), False),
             ("abbot", ("", "b", "", "", ""), True),
             ("abbot", ("b", "", "", "", ""), False),
-            (
-                "abbot",
-                (
-                    "a",
-                    "b",
-                    "b",
-                    "o",
-                    "t",
-                ),
-                True,
-            ),
+            ("abbot", ("a", "b", "b", "o", "t"), True),
         ]
         for candidate, exclusions, output in cases:
             with self.subTest():
