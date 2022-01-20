@@ -9,6 +9,7 @@ from playful.lingo import (
     has_excluded_letters,
     has_misplaced_letters,
     is_potential_solution,
+    partitions,
 )
 
 
@@ -118,3 +119,18 @@ class TestLingo(unittest.TestCase):
         for secret, guess, word, output in cases:
             with self.subTest():
                 self.assertEqual(is_potential_solution(secret, guess, word), output)
+
+    def test_single_partitions(self):
+        """Test identifying known single-word partitions for a given guess"""
+        # fmt: off
+        words = [
+            # these words should all be uniquely identified by the guess "trace".
+            "artsy", "carve", "cater", "chart", "court", "craft", "crate", "croak",
+            "erect", "farce", "force", "great", "heart", "mecca", "price", "reach",
+            "react", "recut", "retch", "roach", "scare", "stack", "stare", "teach",
+            "teary", "tease", "tiara", "torch", "trace", "trade", "twice", "wreck",
+        ]
+        # fmt: on
+        self.assertListEqual(
+            partitions(guess="trace", words=words), [[word] for word in words]
+        )

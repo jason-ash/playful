@@ -2,7 +2,7 @@
 Functions to play the word guessing game from the Lingo game show
 https://en.wikipedia.org/wiki/Lingo_(American_game_show)
 """
-from typing import Tuple
+from typing import Iterable, List, Tuple
 
 
 def correct_letters(secret: str, guess: str) -> Tuple[str, ...]:
@@ -68,3 +68,22 @@ def is_potential_solution(secret: str, guess: str, word: str) -> bool:
         return False
 
     return True
+
+
+def potential_solutions(secret: str, guess: str, words: Iterable[str]) -> List[str]:
+    """Return a list of words that are still potential solutions, given a guess."""
+    return [
+        w for w in words if is_potential_solution(secret=secret, guess=guess, word=w)
+    ]
+
+
+def partitions(guess: str, words: Iterable[str]) -> List[List[str]]:
+    """Return a list of the partitions that a guess will create among a list of words."""
+    wordset = set(words)
+    out = []
+    while wordset:
+        word = sorted(wordset)[0]
+        partition = set(potential_solutions(secret=word, guess=guess, words=wordset))
+        out.append(sorted(partition))
+        wordset = wordset - set(partition)
+    return out
