@@ -27,7 +27,7 @@ class Board(NamedTuple):
 
     @classmethod
     def create(
-        cls, width: int, height: int, n_bombs: int, random_state: Optional[int]
+        cls, width: int, height: int, n_bombs: int, random_state: Optional[int] = None
     ) -> "Board":
         """Create a Board with a given size and number of randomly-distributed bombs."""
         random.seed(random_state)
@@ -48,9 +48,58 @@ class Board(NamedTuple):
         border = f"#{'-' * (self.width * 2 - 1)}#"
         contents = "\n"
         for row in range(self.height):
-            cells = (c for c in self.cells if c.location.y == row)
+            cells = sorted(c for c in self.cells if c.location.y == row)
             contents += "|" + "|".join(c.visualize() for c in cells) + "|\n"
         return border + contents + border
+
+    def _get_cell(self, location: Point) -> Optional[Cell]:
+        """Return the Cell on this Board at a given location."""
+        return next((c for c in self.cells if c.location == location), None)
+
+    def _change_cell_state(self, location: Point, state: str) -> "Board":
+        """Return a new Board after updating the state of one of its cells."""
+        # if a cell doesn't exist at that location, just return the current set of cells.
+        cell = self._get_cell(location=location)
+        if cell:
+            cells = (self.cells - {cell}).union({cell.change_state(state=state)})
+        else:
+            cells = self.cells
+        return self.__class__(cells)
+
+    def flag(self, location: Point) -> "Board":
+        """Return a new Board after flagging the Cell at a given location."""
+        # make sure we don't flag a revealed cell
+        cell = self._get_cell(location=location)
+        if cell is None or cell.state == "revealed":
+            return self
+        return self._change_cell_state(location=location, state="flagged")
+
+    def reveal(self, location: Point) -> "Board":
+        """
+        Return a new Board after revealing the Cell at a given location.
+
+        If the revealed Cell has a value of 0 (no neighboring bombs), then we want to
+        recursively reveal all neighboring Cells until the last Cells we have revealed
+        contain numbers. We reveal all Cells, even if they have been flagged, as this
+        is only likely to reveal Cells that were flagged incorrectly anyway.
+
+        If there is no Cell at the given location, return the original Board.
+        """
+        cell = self._get_cell(location=location)
+        if cell is None or cell.state == "revealed":
+            return self
+
+        out = self._change_cell_state(location=location, state="revealed")
+        if cell.value != 0:
+            return out
+
+        for neighbor in location.borders():
+            out = out.reveal(neighbor)
+        return out
+
+    def reveal_all(self) -> "Board":
+        """Return a new Board with all Cells revealed."""
+        return self.__class__({cell.change_state("revealed") for cell in self.cells})
 
     @property
     def bombs(self) -> int:

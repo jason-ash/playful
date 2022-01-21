@@ -42,15 +42,9 @@ class Cell(NamedTuple):
         """Return a dictionary of the states and counts of this Cell's neighbors."""
         return Counter(cell.state for cell in self.neighbors(cells))
 
-    def reveal(self) -> "Cell":
-        """Return a new Cell by revealing this one."""
-        return self.__class__(
-            location=self.location, value=self.value, state="revealed"
-        )
-
-    def flag(self) -> "Cell":
-        """Return a new Cell by flagging this one."""
-        return self.__class__(location=self.location, value=self.value, state="flagged")
+    def change_state(self, state: str) -> "Cell":
+        """Return a new Cell with an updated status."""
+        return self.__class__(location=self.location, value=self.value, state=state)
 
     def visualize(self) -> str:
         """Return a string visualization of this cell based on its value and state."""
