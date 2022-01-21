@@ -87,3 +87,13 @@ def partitions(guess: str, words: Iterable[str]) -> List[List[str]]:
         out.append(sorted(partition))
         wordset = wordset - set(partition)
     return out
+
+
+def best_splitting_word(candidates: Iterable[str], words: Iterable[str]) -> str:
+    """Return the word that splits a partition of words into the most sub-partitions."""
+    best_word, best_split = "", 0
+    for word in candidates:
+        partition = partitions(guess=word, words=words)
+        if len(partition) > best_split:
+            best_word, best_split = word, len(partition)
+    return best_word
