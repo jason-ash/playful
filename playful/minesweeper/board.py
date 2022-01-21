@@ -69,7 +69,8 @@ class Board(NamedTuple):
     def flag(self, location: Point) -> "Board":
         """Return a new Board after flagging the Cell at a given location."""
         # make sure we don't flag a revealed cell
-        if self._get_cell(location=location).state == "revealed":
+        cell = self._get_cell(location=location)
+        if cell is None or cell.state == "revealed":
             return self
         return self._change_cell_state(location=location, state="flagged")
 
@@ -95,6 +96,10 @@ class Board(NamedTuple):
         for neighbor in location.borders():
             out = out.reveal(neighbor)
         return out
+
+    def reveal_all(self) -> "Board":
+        """Return a new Board with all Cells revealed."""
+        return self.__class__({cell.change_state("revealed") for cell in self.cells})
 
     @property
     def bombs(self) -> int:
