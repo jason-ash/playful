@@ -16,3 +16,11 @@ A Python package that implements classic computer and board games.
     <img src="https://img.shields.io/github/workflow/status/jason-ash/playful/Playful%20CI/master?style=flat-square" alt="Build status"/>
   </a>
 </p>
+
+## Installing playful
+
+`playful` can be installed easily using `pip` directly from this repository.
+
+```
+pip install git+https://github.com/jason-ash/playful.git
+```
